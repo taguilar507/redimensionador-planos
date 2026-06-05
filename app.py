@@ -31,12 +31,12 @@ if archivos_subidos:
         try:
             pdf_bytes = archivo.read()
             
-            # Lectura de dimensiones usando pdfplumber (Alternativa ultra estable)
+            # Apertura del lector de PDF externo
             with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
                 paginas_pdf = pdf.pages
                 total_paginas = len(paginas_pdf)
                 
-                # Convertir PDF a imágenes usando el Poppler nativo de Linux
+                # Renderizar las páginas a imágenes nativas
                 paginas_imagenes = convert_from_path(pdf_bytes, dpi=DPI_ESTANDAR, poppler_path=None)
                 
                 imagenes_procesadas_bytes = []
@@ -45,14 +45,14 @@ if archivos_subidos:
                 for i, pagina in enumerate(paginas_imagenes):
                     num_pagina = i + 1
                     
-                    # Extraer el ancho y alto en puntos desde pdfplumber
+                    # Calcular dimensiones con las proporciones originales del plano
                     ancho_calculado_px = int(float(paginas_pdf[i].width) * (DPI_ESTANDAR / 72))
                     alto_calculado_px = int(float(paginas_pdf[i].height) * (DPI_ESTANDAR / 72))
                     
                     proporcion = alto_calculado_px / ancho_calculado_px
                     alto_nuevo = int(ANCHO_OBJETIVO * proporcion)
                     
-                    # Redimensionar con máxima nitidez
+                    # Redimensionar la imagen a los 9000px exactos
                     imagen_final = pagina.resize((ANCHO_OBJETIVO, alto_nuevo), Image.Resampling.LANCZOS)
                     
                     img_byte_arr = io.BytesIO()
@@ -64,6 +64,7 @@ if archivos_subidos:
                     
                     barra_progreso.progress(int((num_pagina / total_paginas) * 100))
                 
+                # Compilar todas las imágenes en el PDF final sin márgenes
                 pdf_resultado = img2pdf.convert(imagenes_procesadas_bytes)
                 
                 st.success(f"✅ ¡{nuevo_nombre} listo para descargar!")
