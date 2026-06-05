@@ -8,7 +8,7 @@ import os
 
 Image.MAX_IMAGE_PIXELS = None
 
-# Interfaz limpia
+# Interfaz limpia y estética
 st.set_page_config(page_title="Estandarizador de Planos 9000px", page_icon="📐", layout="centered")
 
 st.title("📐 Redimensionador de Planos Pro")
@@ -31,7 +31,7 @@ if archivos_subidos:
         try:
             pdf_bytes = archivo.read()
             
-            # Lectura limpia de vectores
+            # Lectura limpia de vectores para evitar el error de 1px
             reader = PdfReader(io.BytesIO(pdf_bytes))
             paginas_imagenes = convert_from_path(pdf_bytes, dpi=DPI_ESTANDAR, poppler_path=None)
             
