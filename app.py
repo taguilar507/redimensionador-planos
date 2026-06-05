@@ -14,7 +14,7 @@ st.set_page_config(page_title="Estandarizador de Planos 9000px", page_icon="📐
 st.title("📐 Redimensionador de Planos Pro")
 st.write("Sube tus archivos PDF para normalizarlos automáticamente a **9000px de ancho** manteniendo la proporción.")
 
-ANCHO_OBJETIVO = 4500
+ANCHO_OBJETIVO = 100
 DPI_ESTANDAR = 300
 
 archivos_subidos = st.file_uploader("Arrastra tus planos aquí (Formatos .PDF)", type=["pdf"], accept_multiple_files=True)
