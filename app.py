@@ -17,6 +17,7 @@ st.write("Sube tus archivos PDF para normalizarlos automáticamente a **9000px d
 # Ajustes fijos del sistema para la nube
 ANCHO_OBJETIVO = 9000
 DPI_ESTANDAR = 300
+POPPLER_PATH = None  # En Linux/Streamlit Cloud se usa la instalación nativa global
 
 # Componente web para arrastrar y soltar archivos
 archivos_subidos = st.file_uploader("Arrastra tus planos aquí (Formatos .PDF)", type=["pdf"], accept_multiple_files=True)
@@ -34,9 +35,9 @@ if archivos_subidos:
             # Leer el archivo en la memoria del servidor
             pdf_bytes = archivo.read()
             
-            # Lectura de vectores para evitar desbordamientos numéricos (Error 1px solucionado)
+            # Lectura de vectores para evitar desbordamientos numéricos
             reader = PdfReader(io.BytesIO(pdf_bytes))
-            paginas_imagenes = convert_from_path(pdf_bytes, dpi=DPI_ESTANDAR)
+            paginas_imagenes = convert_from_path(pdf_bytes, dpi=DPI_ESTANDAR, poppler_path=POPPLER_PATH)
             
             imagenes_procesadas_bytes = []
             foto_testigo = None
