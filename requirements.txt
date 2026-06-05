@@ -1,7 +1,4 @@
-streamlit==1.38.0
+streamlit
 img2pdf
 pdf2image
 pdfplumber
-uvicorn==0.30.6
-starlette==0.38.2
-python-multipart==0.0.9
