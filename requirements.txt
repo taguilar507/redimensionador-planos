@@ -1,4 +1,4 @@
 streamlit
 img2pdf
 pdf2image
-pypdf>=5.0.0
+pdfplumber
